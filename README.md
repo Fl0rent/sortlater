@@ -1,6 +1,6 @@
 # SortLater - Read It Later App (Application de Lecture Différée)
 
-English version
+English version further down in the document
 
 ## 🤖 À Propos de ce Prototype
 
