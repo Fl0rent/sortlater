@@ -1,6 +1,25 @@
 # SortLater - Read It Later App
 
-A beautiful, feature-rich read-it-later application built with React, TypeScript, and Tailwind CSS.
+## 🤖 About This Prototype
+
+**This project is a prototype of my personal need, realized by an AI assistant.**
+
+The aim is to start from scratch, by hand, to properly understand and build what I actually need. By doing so, I'll be able to test my idea and see if anyone else is interested in this approach.
+
+**This is NOT intended to be yet another application for reading articles, nor to arrange them in bookmarks.** Instead, the goal is to create a **catch-all that's quick to open and empty** - a temporary holding space for links that you want to process later, then clear out.
+
+### 🎯 The Vision
+
+Unlike traditional read-it-later apps that encourage hoarding articles, SortLater is designed around the concept of **flow and emptiness**:
+
+- **Quick capture** - Save links instantly without friction
+- **Process and clear** - Read, archive, or delete to keep the active list empty
+- **Temporary storage** - Not a permanent library, but a processing queue
+- **Minimal friction** - Fast to add, fast to clear, fast to find what you need
+
+This prototype helps validate whether this "empty inbox" approach to link management resonates with others who feel overwhelmed by traditional bookmark systems.
+
+---
 
 ![SortLater App](https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1200&h=400&fit=crop)
 
