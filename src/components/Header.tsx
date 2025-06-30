@@ -131,9 +131,9 @@ export const Header: React.FC<HeaderProps> = ({
           <a
             href="https://github.com/Fl0rent/sortlater"
             target="_blank"
-            style="color: blue; text-decoration: underline";
+            style="color: blue; text-decoration: underline;"
           >
-            En savoir +{" "}
+            En savoir +
           </a>
         </p>
 
