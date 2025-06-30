@@ -128,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({
             isDark ? "text-gray-400" : "text-gray-600"
           } text-lg mb-6 text-center`}
         >
-          En savoir +
+          <a href="https://github.com/Fl0rent/sortlater">En savoir + </a>
         </p>
 
         {/* Settings Panel */}
