@@ -1,6 +1,6 @@
 (function () {
   // Configuration - Updated to use your deployed URL
-  const SORTLATER_URL = "https://dainty-llama-60c045.netlify.app/";
+  const SORTLATER_URL = "https://dainty-llama-60c045.netlify.app";
 
   // Get current page information
   const currentUrl = window.location.href;
