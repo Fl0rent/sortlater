@@ -8,16 +8,23 @@ English version [here](/READMEen.md)
 
 **Ce projet est un prototype d'un besoin personnel, réalisé par un assistant IA.**
 
-L'objectif est de repartir de zéro, à la main, pour bien comprendre et construire ce dont j'ai réellement besoin. Ce faisant, je pourrai tester mon idée et voir si d'autres personnes sont intéressées par cette approche.
+L'objectif est de repartir de zéro, à la main, pour bien comprendre et construire ce dont j'ai réellement besoin. 
 
-**Ce n'est PAS une énième application pour lire des articles, ni pour les organiser en favoris.** Au contraire, le but est de créer un **fourre-tout rapide à ouvrir et à vider** - un espace de stockage temporaire pour les liens que vous souhaitez traiter plus tard, puis faire le vide.
+Et aussi, je pourrai tester mon idée et voir si d'autres personnes sont intéressées par cette approche.
+
+**Ce n'est PAS une énième application pour lire des articles, ni pour les organiser en favoris.** 
+
+Au contraire, le but est de créer un **fourre-tout rapide à ouvrir et à vider** - un espace de stockage temporaire pour les liens que vous souhaitez traiter plus tard, puis faire le vide.
+
+Cela pourrait aussi devenir un trou noir de liens, un peu comme c'est déjà la cas pour mes applications de readLater et de bookmarks.
+
 
 ### 🎯 La Vision
 
-Contrairement aux applications de lecture différée traditionnelles qui encouragent l'accumulation d'articles, SortLater est conçu autour du concept de **flux et de vide** :
+Contrairement aux applications de lecture différée traditionnelles qui permettent de lire les articles au sein d'un espace dédié, SortLater est conçu autour du concept de **flux et de vide** :
 
 - **Capture rapide** - Sauvegardez des liens instantanément et sans friction.
-- **Traiter et vider** - Lisez, archivez ou supprimez pour garder la liste active vide.
+- **Traiter et vider** - Lisez et archivez en 1 clic dans un nouvel onglet.
 - **Stockage temporaire** - Pas une bibliothèque permanente, mais une file d'attente de traitement.
 - **Friction minimale** - Rapide à ajouter, rapide à vider, rapide à trouver ce dont vous avez besoin.
 
