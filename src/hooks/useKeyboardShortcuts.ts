@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 interface KeyboardShortcuts {
   onAddLink: () => void;
@@ -19,7 +19,7 @@ export const useKeyboardShortcuts = ({
     const handleKeyDown = (event: KeyboardEvent) => {
       // Check if user is typing in an input field
       const target = event.target as HTMLElement;
-      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") {
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
         return;
       }
 
@@ -27,30 +27,30 @@ export const useKeyboardShortcuts = ({
       const cmdOrCtrl = ctrlKey || metaKey;
 
       switch (true) {
-        case cmdOrCtrl && key === "k":
+        case cmdOrCtrl && key === 'k':
           event.preventDefault();
           onAddLink();
           break;
-        case cmdOrCtrl && key === "d":
+        case cmdOrCtrl && key === 'd':
           event.preventDefault();
           onToggleTheme();
           break;
-        case key === "Tab" && !shiftKey:
+        case key === 'Tab' && !shiftKey:
           event.preventDefault();
           onToggleView();
           break;
-        case cmdOrCtrl && key === "f":
+        case cmdOrCtrl && key === 'f':
           event.preventDefault();
           onSearch();
           break;
-        case cmdOrCtrl && key === "e":
+        case cmdOrCtrl && key === 'e':
           event.preventDefault();
           onExport();
           break;
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onAddLink, onToggleTheme, onToggleView, onSearch, onExport]);
 };

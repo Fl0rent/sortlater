@@ -9,6 +9,6 @@ export interface Link {
 }
 
 export interface AppSettings {
-  theme: "light" | "dark";
+  theme: 'light' | 'dark';
   defaultCategory: string;
 }

@@ -24,7 +24,6 @@ Thank you for your interest in contributing to SortLater! We welcome contributio
 ### Making Changes
 
 1. **Create a new branch** for your feature or bug fix:
-
    ```bash
    git checkout -b feature/your-feature-name
    # or
@@ -32,7 +31,6 @@ Thank you for your interest in contributing to SortLater! We welcome contributio
    ```
 
 2. **Make your changes** following our coding standards:
-
    - Use TypeScript for type safety
    - Follow the existing code style
    - Add comments for complex logic
@@ -56,7 +54,6 @@ Thank you for your interest in contributing to SortLater! We welcome contributio
 ### Commit Messages
 
 Use clear and descriptive commit messages:
-
 ```bash
 git commit -m "Add: New feature for bulk link import"
 git commit -m "Fix: Search not working with special characters"
@@ -96,25 +93,21 @@ We love new ideas! When suggesting features:
 
 ```markdown
 ## Description
-
 Brief description of changes
 
 ## Type of Change
-
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Breaking change
 - [ ] Documentation update
 
 ## Testing
-
 - [ ] Tested in light theme
 - [ ] Tested in dark theme
 - [ ] Tested on mobile
 - [ ] Tested keyboard shortcuts
 
 ## Screenshots
-
 (if applicable)
 ```
 
@@ -140,7 +133,6 @@ We especially welcome contributions in these areas:
 ## 🎉 Recognition
 
 Contributors will be:
-
 - Listed in the README
 - Mentioned in release notes
 - Given credit for their contributions
@@ -148,7 +140,6 @@ Contributors will be:
 ## 📞 Getting Help
 
 If you need help:
-
 - Open an issue with the "question" label
 - Check existing documentation
 - Look at similar implementations in the codebase

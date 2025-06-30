@@ -37,27 +37,23 @@ This prototype helps validate whether this "empty inbox" approach to link manage
 ## 🚀 Getting Started
 
 ### Prerequisites
-
 - Node.js (version 16 or higher)
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
-
    ```bash
    git clone https://github.com/yourusername/sortlater-app.git
    cd sortlater-app
    ```
 
 2. **Install dependencies**
-
    ```bash
    npm install
    ```
 
 3. **Start the development server**
-
    ```bash
    npm run dev
    ```
@@ -74,14 +70,14 @@ The built files will be in the `dist` directory.
 
 ## ⌨️ Keyboard Shortcuts
 
-| Shortcut       | Action                         |
-| -------------- | ------------------------------ |
-| `Ctrl/Cmd + K` | Add new link                   |
-| `Ctrl/Cmd + D` | Toggle theme                   |
-| `Tab`          | Switch between Active/Archived |
-| `Ctrl/Cmd + F` | Focus search                   |
-| `Ctrl/Cmd + E` | Export links                   |
-| `?`            | Show keyboard shortcuts        |
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + K` | Add new link |
+| `Ctrl/Cmd + D` | Toggle theme |
+| `Tab` | Switch between Active/Archived |
+| `Ctrl/Cmd + F` | Focus search |
+| `Ctrl/Cmd + E` | Export links |
+| `?` | Show keyboard shortcuts |
 
 ## 🛠️ Tech Stack
 
@@ -94,25 +90,21 @@ The built files will be in the `dist` directory.
 ## 📱 Usage
 
 ### Adding Links
-
 1. Paste any URL in the "Add New Link" form
 2. Optionally add a custom title, category, and tags
 3. Click "Add Link" or press Enter
 
 ### Reading Links
-
 - Click "Read" on any active link to open it and automatically archive it
 - Or click the link title to open without archiving
 
 ### Organization
-
 - **Categories:** Group related links together
 - **Tags:** Add multiple tags for flexible organization
 - **Search:** Find links by title, URL, or tags
 - **Filters:** Filter by category or tags
 
 ### Data Management
-
 - **Export:** Download all your links as a JSON file
 - **Import:** Upload a JSON file to restore or merge links
 - **Archive:** Keep your reading list clean by archiving read items
@@ -124,7 +116,6 @@ The app supports both light and dark themes with beautiful gradients and smooth 
 ## 📄 Data Format
 
 Links are stored in this format:
-
 ```json
 {
   "id": 1640995200000,
