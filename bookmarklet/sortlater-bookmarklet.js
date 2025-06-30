@@ -1,13 +1,13 @@
-(function() {
+(function () {
   // Configuration - Updated to use your deployed URL
-  const SORTLATER_URL = 'https://dainty-llama-60c045.netlify.app/';
-  
+  const SORTLATER_URL = "https://dainty-llama-60c045.netlify.app";
+
   // Get current page information
   const currentUrl = window.location.href;
   const currentTitle = document.title;
-  
+
   // Create overlay
-  const overlay = document.createElement('div');
+  const overlay = document.createElement("div");
   overlay.style.cssText = `
     position: fixed;
     top: 0;
@@ -21,9 +21,9 @@
     justify-content: center;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   `;
-  
+
   // Create modal
-  const modal = document.createElement('div');
+  const modal = document.createElement("div");
   modal.style.cssText = `
     background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
     border: 1px solid rgba(16, 185, 129, 0.3);
@@ -34,7 +34,7 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     position: relative;
   `;
-  
+
   modal.innerHTML = `
     <div style="text-align: center; margin-bottom: 20px;">
       <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
@@ -95,23 +95,28 @@
     
     <div id="sl-message" style="margin-top: 16px; text-align: center; font-size: 13px; display: none;"></div>
   `;
-  
+
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
-  
+
   // Focus on title input
-  const titleInput = document.getElementById('sl-title');
+  const titleInput = document.getElementById("sl-title");
   titleInput.focus();
   titleInput.select();
-  
+
   // Handle save
-  document.getElementById('sl-save').addEventListener('click', function() {
-    const url = document.getElementById('sl-url').value;
-    const title = document.getElementById('sl-title').value;
-    const category = document.getElementById('sl-category').value;
-    const tagsInput = document.getElementById('sl-tags').value;
-    const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
-    
+  document.getElementById("sl-save").addEventListener("click", function () {
+    const url = document.getElementById("sl-url").value;
+    const title = document.getElementById("sl-title").value;
+    const category = document.getElementById("sl-category").value;
+    const tagsInput = document.getElementById("sl-tags").value;
+    const tags = tagsInput
+      ? tagsInput
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag)
+      : [];
+
     // Create link object
     const linkData = {
       id: Date.now(),
@@ -120,59 +125,62 @@
       archived: false,
       createdAt: new Date().toISOString(),
       category: category,
-      tags: tags
+      tags: tags,
     };
-    
+
     // Save to localStorage (same key as the main app)
     try {
-      const existingLinks = JSON.parse(localStorage.getItem('sortlater-links') || '[]');
+      const existingLinks = JSON.parse(
+        localStorage.getItem("sortlater-links") || "[]"
+      );
       existingLinks.unshift(linkData);
-      localStorage.setItem('sortlater-links', JSON.stringify(existingLinks));
-      
+      localStorage.setItem("sortlater-links", JSON.stringify(existingLinks));
+
       // Show success message
-      const messageDiv = document.getElementById('sl-message');
-      messageDiv.style.display = 'block';
-      messageDiv.style.color = '#10b981';
-      messageDiv.innerHTML = '✅ Link saved successfully!';
-      
+      const messageDiv = document.getElementById("sl-message");
+      messageDiv.style.display = "block";
+      messageDiv.style.color = "#10b981";
+      messageDiv.innerHTML = "✅ Link saved successfully!";
+
       // Auto-close after 2 seconds
       setTimeout(() => {
         document.body.removeChild(overlay);
       }, 2000);
-      
     } catch (error) {
       // Show error message
-      const messageDiv = document.getElementById('sl-message');
-      messageDiv.style.display = 'block';
-      messageDiv.style.color = '#ef4444';
-      messageDiv.innerHTML = '❌ Error saving link. Please try again.';
+      const messageDiv = document.getElementById("sl-message");
+      messageDiv.style.display = "block";
+      messageDiv.style.color = "#ef4444";
+      messageDiv.innerHTML = "❌ Error saving link. Please try again.";
     }
   });
-  
+
   // Handle cancel
-  document.getElementById('sl-cancel').addEventListener('click', function() {
+  document.getElementById("sl-cancel").addEventListener("click", function () {
     document.body.removeChild(overlay);
   });
-  
+
   // Handle escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
       if (document.body.contains(overlay)) {
         document.body.removeChild(overlay);
       }
     }
   });
-  
+
   // Handle click outside modal
-  overlay.addEventListener('click', function(e) {
+  overlay.addEventListener("click", function (e) {
     if (e.target === overlay) {
       document.body.removeChild(overlay);
     }
   });
-  
+
   // Handle form submission
-  document.getElementById('sortlater-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('sl-save').click();
-  });
+  document
+    .getElementById("sortlater-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("sl-save").click();
+    });
 })();
