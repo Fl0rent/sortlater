@@ -75,19 +75,19 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
     <form
       onSubmit={handleSubmit}
       className={`${
-        isDark ? "bg-white/10" : "bg-white shadow-lg"
-      } backdrop-blur-sm border ${
-        isDark ? "border-white/20" : "border-gray-200"
-      } rounded-xl p-6 mb-8`}
+        isDark
+          ? "bg-gray-900 border border-green-500/20"
+          : "bg-white shadow-lg border border-gray-200"
+      } backdrop-blur-sm rounded-xl p-6 mb-8`}
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
           <LinkIcon
-            className={`w-5 h-5 ${isDark ? "text-blue-200" : "text-blue-600"}`}
+            className={`w-5 h-5 ${isDark ? "text-green-400" : "text-blue-600"}`}
           />
           <h2
             className={`text-xl font-semibold ${
-              isDark ? "text-white" : "text-gray-900"
+              isDark ? "text-green-400" : "text-gray-900"
             }`}
           >
             Add New Link
@@ -98,7 +98,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
           onClick={() => setIsExpanded(!isExpanded)}
           className={`text-sm ${
             isDark
-              ? "text-gray-300 hover:text-white"
+              ? "text-gray-400 hover:text-green-400"
               : "text-gray-600 hover:text-gray-900"
           } transition-colors`}
         >
@@ -111,7 +111,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
           <label
             htmlFor="url-input"
             className={`block text-sm font-medium ${
-              isDark ? "text-gray-200" : "text-gray-700"
+              isDark ? "text-gray-300" : "text-gray-700"
             } mb-2`}
           >
             URL *
@@ -125,9 +125,13 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
             required
             className={`w-full px-4 py-3 ${
               isDark
-                ? "bg-white/10 border-white/20 text-white placeholder-gray-400"
+                ? "bg-gray-800 border-green-500/30 text-green-400 placeholder-gray-500"
                 : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-            } border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200`}
+            } border rounded-lg focus:outline-none focus:ring-2 ${
+              isDark
+                ? "focus:ring-green-400 focus:border-green-400"
+                : "focus:ring-blue-400 focus:border-transparent"
+            } transition-all duration-200`}
           />
         </div>
 
@@ -135,7 +139,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
           <label
             htmlFor="title-input"
             className={`block text-sm font-medium ${
-              isDark ? "text-gray-200" : "text-gray-700"
+              isDark ? "text-gray-300" : "text-gray-700"
             } mb-2`}
           >
             Title (optional)
@@ -148,9 +152,13 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
             placeholder="Enter a custom title"
             className={`w-full px-4 py-3 ${
               isDark
-                ? "bg-white/10 border-white/20 text-white placeholder-gray-400"
+                ? "bg-gray-800 border-green-500/30 text-green-400 placeholder-gray-500"
                 : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-            } border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200`}
+            } border rounded-lg focus:outline-none focus:ring-2 ${
+              isDark
+                ? "focus:ring-green-400 focus:border-green-400"
+                : "focus:ring-blue-400 focus:border-transparent"
+            } transition-all duration-200`}
           />
         </div>
 
@@ -160,7 +168,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
               <label
                 htmlFor="category-select"
                 className={`block text-sm font-medium ${
-                  isDark ? "text-gray-200" : "text-gray-700"
+                  isDark ? "text-gray-300" : "text-gray-700"
                 } mb-2`}
               >
                 <Folder className="w-4 h-4 inline mr-1" />
@@ -172,9 +180,13 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
                 onChange={(e) => setCategory(e.target.value)}
                 className={`w-full px-4 py-3 ${
                   isDark
-                    ? "bg-white/10 border-white/20 text-white"
+                    ? "bg-gray-800 border-green-500/30 text-green-400"
                     : "bg-white border-gray-300 text-gray-900"
-                } border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200`}
+                } border rounded-lg focus:outline-none focus:ring-2 ${
+                  isDark
+                    ? "focus:ring-green-400 focus:border-green-400"
+                    : "focus:ring-blue-400 focus:border-transparent"
+                } transition-all duration-200`}
               >
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
@@ -188,7 +200,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
               <label
                 htmlFor="tags-input"
                 className={`block text-sm font-medium ${
-                  isDark ? "text-gray-200" : "text-gray-700"
+                  isDark ? "text-gray-300" : "text-gray-700"
                 } mb-2`}
               >
                 <Tag className="w-4 h-4 inline mr-1" />
@@ -203,9 +215,13 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
                 placeholder="Add tags..."
                 className={`w-full px-4 py-3 ${
                   isDark
-                    ? "bg-white/10 border-white/20 text-white placeholder-gray-400"
+                    ? "bg-gray-800 border-green-500/30 text-green-400 placeholder-gray-500"
                     : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
-                } border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200`}
+                } border rounded-lg focus:outline-none focus:ring-2 ${
+                  isDark
+                    ? "focus:ring-green-400 focus:border-green-400"
+                    : "focus:ring-blue-400 focus:border-transparent"
+                } transition-all duration-200`}
               />
               {tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
@@ -214,7 +230,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
                       key={tag}
                       className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                         isDark
-                          ? "bg-blue-500/20 text-blue-200"
+                          ? "bg-green-500/20 text-green-400 border border-green-500/30"
                           : "bg-blue-100 text-blue-800"
                       }`}
                     >
@@ -224,7 +240,7 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
                         onClick={() => removeTag(tag)}
                         className={`ml-1 ${
                           isDark
-                            ? "text-blue-300 hover:text-blue-100"
+                            ? "text-green-300 hover:text-green-100"
                             : "text-blue-600 hover:text-blue-800"
                         }`}
                       >
@@ -243,12 +259,20 @@ export const AddLinkForm: React.FC<AddLinkFormProps> = ({
           disabled={!isFormValid || isLoading}
           className={`w-full flex items-center justify-center space-x-2 py-3 px-6 rounded-lg font-medium transition-all duration-200 ${
             isFormValid && !isLoading
-              ? "bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl"
+              ? isDark
+                ? "bg-green-500 hover:bg-green-400 text-black shadow-lg shadow-green-500/25"
+                : "bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl"
               : "bg-gray-500/20 text-gray-400 cursor-not-allowed"
           }`}
         >
           {isLoading ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <div
+              className={`w-5 h-5 border-2 ${
+                isDark
+                  ? "border-black/30 border-t-black"
+                  : "border-white/30 border-t-white"
+              } rounded-full animate-spin`}
+            />
           ) : (
             <>
               <Plus className="w-5 h-5" />

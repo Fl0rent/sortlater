@@ -53,12 +53,16 @@ export const LinkCard: React.FC<LinkCardProps> = ({
   return (
     <div
       className={`group relative ${
-        isDark ? "bg-white/10" : "bg-white shadow-lg"
-      } backdrop-blur-sm border ${
-        isDark ? "border-white/20" : "border-gray-200"
-      } rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl ${
+        isDark
+          ? "bg-gray-900 border border-green-500/10 hover:border-green-500/20"
+          : "bg-white shadow-lg border border-gray-200"
+      } backdrop-blur-sm rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] ${
         link.archived ? "opacity-75" : ""
-      } ${isDark ? "hover:bg-white/15" : "hover:shadow-2xl"}`}
+      } ${
+        isDark
+          ? "hover:bg-gray-800 shadow-lg shadow-green-500/5"
+          : "hover:shadow-2xl"
+      }`}
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1 min-w-0">
@@ -66,10 +70,10 @@ export const LinkCard: React.FC<LinkCardProps> = ({
             className={`font-semibold text-lg mb-2 cursor-pointer transition-colors duration-200 ${
               link.archived
                 ? isDark
-                  ? "text-gray-300 hover:text-gray-100"
+                  ? "text-gray-400 hover:text-gray-300"
                   : "text-gray-600 hover:text-gray-800"
                 : isDark
-                ? "text-white hover:text-blue-200"
+                ? "text-green-400 hover:text-green-300"
                 : "text-gray-900 hover:text-blue-600"
             }`}
             onClick={link.archived ? undefined : handleReadClick}
@@ -79,7 +83,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
           </h3>
           <div
             className={`flex items-center space-x-2 text-sm ${
-              isDark ? "text-gray-300" : "text-gray-600"
+              isDark ? "text-gray-500" : "text-gray-600"
             } mb-3`}
           >
             <span className="truncate">{getDomain(link.url)}</span>
@@ -96,7 +100,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
               <span
                 className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                   isDark
-                    ? "bg-purple-500/20 text-purple-200"
+                    ? "bg-green-500/20 text-green-300 border border-green-500/30"
                     : "bg-purple-100 text-purple-800"
                 }`}
               >
@@ -110,7 +114,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
                   key={tag}
                   className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                     isDark
-                      ? "bg-blue-500/20 text-blue-200"
+                      ? "bg-gray-800 text-green-400 border border-green-500/30"
                       : "bg-blue-100 text-blue-800"
                   }`}
                 >
@@ -125,10 +129,10 @@ export const LinkCard: React.FC<LinkCardProps> = ({
           className={`px-2 py-1 rounded-full text-xs font-medium ${
             link.archived
               ? isDark
-                ? "bg-gray-500/20 text-gray-300"
+                ? "bg-gray-800 text-gray-400 border border-gray-700"
                 : "bg-gray-200 text-gray-600"
               : isDark
-              ? "bg-blue-500/20 text-blue-200"
+              ? "bg-green-500/20 text-green-400 border border-green-500/30"
               : "bg-blue-100 text-blue-800"
           }`}
         >
@@ -143,7 +147,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
               onClick={handleReadClick}
               className={`flex items-center space-x-1 ${
                 isDark
-                  ? "text-blue-200 hover:text-blue-100"
+                  ? "text-green-400 hover:text-green-300"
                   : "text-blue-600 hover:text-blue-800"
               } transition-colors duration-200`}
               title="Read and Archive"
@@ -158,7 +162,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
               onClick={() => onRestore(link.id)}
               className={`flex items-center space-x-1 ${
                 isDark
-                  ? "text-green-200 hover:text-green-100"
+                  ? "text-green-400 hover:text-green-300"
                   : "text-green-600 hover:text-green-800"
               } transition-colors duration-200`}
               title="Restore to Active"
@@ -173,7 +177,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
           onClick={() => onDelete(link.id)}
           className={`flex items-center space-x-1 ${
             isDark
-              ? "text-red-200 hover:text-red-100"
+              ? "text-red-400 hover:text-red-300"
               : "text-red-500 hover:text-red-700"
           } transition-colors duration-200 opacity-0 group-hover:opacity-100`}
           title="Delete permanently"

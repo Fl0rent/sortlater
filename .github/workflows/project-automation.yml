@@ -1,0 +1,47 @@
+name: Project Automation
+
+on:
+  issues:
+    types: [opened, labeled, assigned]
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  auto-assign-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add issue to project
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/YOUR_USERNAME/projects/1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  auto-label:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+      - name: Auto-label based on title
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const title = context.payload.issue.title.toLowerCase();
+            const labels = [];
+
+            if (title.includes('[bug]') || title.includes('bug:') || title.includes('fix:')) {
+              labels.push('type: bug');
+            } else if (title.includes('[feature]') || title.includes('feat:')) {
+              labels.push('type: feature');
+            } else if (title.includes('[task]') || title.includes('task:')) {
+              labels.push('type: task');
+            } else if (title.includes('[docs]') || title.includes('docs:')) {
+              labels.push('type: docs');
+            }
+
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labels
+              });
+            }

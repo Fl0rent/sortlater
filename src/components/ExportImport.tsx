@@ -58,17 +58,19 @@ export const ExportImport: React.FC<ExportImportProps> = ({
   return (
     <div
       className={`${
-        isDark ? "bg-white/10" : "bg-white shadow-lg"
-      } backdrop-blur-sm border ${
-        isDark ? "border-white/20" : "border-gray-200"
-      } rounded-xl p-4`}
+        isDark
+          ? "bg-gray-900 border border-green-500/20"
+          : "bg-white shadow-lg border border-gray-200"
+      } backdrop-blur-sm rounded-xl p-4`}
     >
       <div className="flex items-center space-x-2 mb-4">
         <FileText
-          className={`w-5 h-5 ${isDark ? "text-gray-300" : "text-gray-600"}`}
+          className={`w-5 h-5 ${isDark ? "text-green-400" : "text-gray-600"}`}
         />
         <h3
-          className={`font-semibold ${isDark ? "text-white" : "text-gray-900"}`}
+          className={`font-semibold ${
+            isDark ? "text-green-400" : "text-gray-900"
+          }`}
         >
           Backup & Restore
         </h3>
@@ -79,7 +81,7 @@ export const ExportImport: React.FC<ExportImportProps> = ({
           onClick={handleExport}
           className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
             isDark
-              ? "bg-green-500/20 text-green-200 hover:bg-green-500/30"
+              ? "bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30"
               : "bg-green-100 text-green-800 hover:bg-green-200"
           }`}
           title="Export all links to JSON file"
@@ -92,7 +94,7 @@ export const ExportImport: React.FC<ExportImportProps> = ({
           onClick={() => fileInputRef.current?.click()}
           className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
             isDark
-              ? "bg-blue-500/20 text-blue-200 hover:bg-blue-500/30"
+              ? "bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30"
               : "bg-blue-100 text-blue-800 hover:bg-blue-200"
           }`}
           title="Import links from JSON file"
