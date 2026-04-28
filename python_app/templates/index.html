@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="py-4">
+    <!-- Formulaire d'ajout rapide -->
+    <div class="mb-8 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <h2 class="text-lg font-medium mb-4">Ajouter un nouveau lien</h2>
+        <form action="{{ url_for('add_link') }}" method="POST" class="flex gap-4">
+            <input type="url" name="url" required placeholder="https://..." class="flex-1 rounded-md border-gray-300 shadow-sm px-4 py-2 border focus:ring-blue-500 focus:border-blue-500">
+            <input type="text" name="title" placeholder="Titre (optionnel)" class="flex-1 rounded-md border-gray-300 shadow-sm px-4 py-2 border focus:ring-blue-500 focus:border-blue-500">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition-colors">
+                Ajouter
+            </button>
+        </form>
+    </div>
+
+    <!-- Liste des liens à lire -->
+    <h2 class="text-xl font-bold mb-4">À lire plus tard ({{ links|length }})</h2>
+    
+    {% if not links %}
+    <div class="text-center py-12 text-gray-400">
+        <p>Ta liste est vide. Bravo !</p>
+    </div>
+    {% endif %}
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {% for link in links %}
+        <div class="bg-white p-5 rounded-lg shadow hover:shadow-md transition-shadow flex flex-col justify-between border-l-4 border-blue-500">
+            <div>
+                <!-- Ouvre dans un nouvel onglet -->
+                <a href="{{ link['url'] }}" target="_blank" rel="noopener noreferrer" class="font-medium text-gray-900 hover:text-blue-600 visited:text-purple-600 block mb-2 line-clamp-2">
+                    {{ link['title'] }}
+                </a>
+                <p class="text-xs text-gray-500 truncate mb-4">{{ link['url'] }}</p>
+            </div>
+            
+            <div class="flex justify-between items-center border-t pt-3 mt-auto">
+                <!-- Bouton LIRE (archive le lien) -->
+                <a href="{{ url_for('read_link', id=link['id']) }}" class="text-sm font-medium text-green-600 hover:text-green-800 bg-green-50 px-3 py-1 rounded">
+                    ✓ Lu / Archiver
+                </a>
+                <!-- Bouton SUPPRIMER -->
+                <a href="{{ url_for('delete_link', id=link['id']) }}" class="text-sm text-red-500 hover:text-red-700" onclick="return confirm('Es-tu sûr de vouloir supprimer définitivement ce lien ?')">
+                    Supprimer
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
