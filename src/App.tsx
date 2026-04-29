@@ -118,7 +118,24 @@ function App() {
 
   const handleExport = () => {
     const toExport = links.filter(l => selected.has(l.id));
-    const text = toExport.map(l => `${l.title}\n${l.url}`).join('\n\n');
+
+    // Grouper par date d'ajout
+    const groups = new Map<string, typeof toExport>();
+    for (const link of toExport) {
+      const date = new Date(link.addedAt).toLocaleDateString('fr-FR', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+      if (!groups.has(date)) groups.set(date, []);
+      groups.get(date)!.push(link);
+    }
+
+    const sections = Array.from(groups.entries()).map(([date, groupLinks]) => {
+      const header = `## Saved ${date}`;
+      const items = groupLinks.map(l => `${l.title}\n${l.url}`).join('\n\n');
+      return `${header}\n${items}`;
+    });
+
+    const text = sections.join('\n\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
