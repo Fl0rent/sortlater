@@ -1,171 +1,108 @@
-# SortLater - Read It Later App
+# SortLater
 
-English version [here](/READMEen.md)
+Une application web minimaliste pour sauvegarder des liens à traiter plus tard — et vraiment les traiter.
 
-# SortLater - Application de Lecture Différée
-
-## 🤖 À Propos de ce Prototype
-
-**Ce projet est un prototype d'un besoin personnel, réalisé par un assistant IA.**
-
-L'objectif est de repartir de zéro, à la main, pour bien comprendre et construire ce dont j'ai réellement besoin. 
-
-Et aussi, je pourrai tester mon idée et voir si d'autres personnes sont intéressées par cette approche.
-
-**Ce n'est PAS une énième application pour lire des articles, ni pour les organiser en favoris.** 
-
-Au contraire, le but est de créer un **fourre-tout rapide à ouvrir et à vider** - un espace de stockage temporaire pour les liens que vous souhaitez traiter plus tard, puis faire le vide.
-
-Cela pourrait aussi devenir un trou noir de liens, un peu comme c'est déjà la cas pour mes applications de readLater et de bookmarks.
-
-
-### 🎯 La Vision
-
-Contrairement aux applications de lecture différée traditionnelles qui permettent de lire les articles au sein d'un espace dédié, SortLater est conçu autour du concept de **flux et de vide** :
-
-- **Capture rapide** - Sauvegardez des liens instantanément et sans friction.
-- **Traiter et vider** - Lisez et archivez en 1 clic dans un nouvel onglet.
-- **Stockage temporaire** - Pas une bibliothèque permanente, mais une file d'attente de traitement.
-- **Friction minimale** - Rapide à ajouter, rapide à vider, rapide à trouver ce dont vous avez besoin.
-
-Ce prototype aide à valider si cette approche de la "boîte de réception vide" pour la gestion des liens trouve un écho auprès d'autres personnes qui se sentent dépassées par les systèmes de favoris traditionnels.
+**Pas une bibliothèque. Pas un gestionnaire de favoris. Une file d'attente qu'on vide.**
 
 ---
 
-## ✨ Fonctionnalités
+## L'idée
 
-- 📚 **Sauvegarder des Liens** - Enregistrez rapidement des articles, des vidéos et des pages web pour plus tard.
-- 🏷️ **Organisation Intelligente** - Catégorisez et taguez vos liens pour les retrouver facilement.
-- 🔍 **Recherche Puissante** - Trouvez votre contenu sauvegardé avec un filtrage avancé.
-- 🌙 **Changement de Thème** - De magnifiques thèmes clair et sombre.
-- ⌨️ **Raccourcis Clavier** - Naviguez efficacement avec des raccourcis.
-- 📤 **Export/Import** - Sauvegardez et restaurez vos données au format JSON.
-- 📱 **Design Responsive** - Fonctionne parfaitement sur tous les appareils.
-- ⚡ **Rapide & Léger** - Construit avec des technologies web modernes.
+On tombe sur un lien intéressant au mauvais moment. On le sauvegarde. Il s'accumule avec des centaines d'autres et on ne le lit jamais.
 
-## 🚀 Démarrage Rapide
+SortLater part d'un principe différent : la liste est courte par nature (20 liens par défaut), visible d'un coup d'œil, et conçue pour être vidée — pas archivée.
+
+---
+
+## Fonctionnement
+
+### Ajouter un lien
+Cliquer sur **ajouter** en bas de la liste, coller l'URL, valider. Le lien apparaît en haut de la liste avec la date du jour.
+
+### Lire un lien
+Cliquer sur le titre ouvre le lien dans un nouvel onglet et le retire automatiquement de la liste. Il reste accessible dans l'historique pendant 24h.
+
+**Astuce — traiter plusieurs liens sans quitter SortLater :**
+Faire un clic droit sur un lien → "Ouvrir dans un nouvel onglet" ouvre la page en arrière-plan sans quitter SortLater. Répéter pour chaque lien souhaité, puis cliquer sur le **✕** de chaque lien pour les retirer de la liste. Les onglets sont prêts à lire, la liste est déjà vidée.
+
+### Supprimer sans lire
+Cliquer sur le **✕** à gauche du lien le supprime immédiatement. Un message "Lien supprimé — Annuler" apparaît en haut pendant 4 secondes pour annuler si besoin.
+
+### Rechercher
+La barre de recherche en haut filtre les liens par titre en temps réel.
+
+### Importer des liens
+Cliquer sur **importer** affiche une zone de texte. Coller des URLs (une par ligne) ou un fichier exporté depuis SortLater (format `titre\nURL`).
+
+### Exporter des liens
+Cliquer sur **exporter** affiche des cases à cocher sur chaque lien. Sélectionner les liens à exporter, cliquer sur "Exporter .txt". Les liens sélectionnés disparaissent de la liste.
+
+### Historique
+Les liens ouverts sont conservés 24h dans un historique discret en bas de page, accessible via un bouton replié.
+
+### Limite de liens
+Le compteur en haut à droite (`X / 20 liens`) indique le nombre de liens actifs. La limite est modifiable via le menu déroulant (10, 20, 50, 100).
+
+### Thème
+Le bouton ☀/☾ en haut à droite bascule entre le mode clair et sombre. Le choix est mémorisé.
+
+---
+
+## Installation
 
 ### Prérequis
 
-- Node.js (version 16 ou supérieure)
-- npm ou yarn
+- Node.js 16+
+- npm
 
-### Installation
+### Lancer en local
 
-1.  **Clonez le dépôt**
+```bash
+git clone https://github.com/Fl0rent/sortlater.git
+cd sortlater
+npm install
+npm run dev
+```
 
-    ```bash
-    git clone https://github.com/yourusername/sortlater-app.git
-    cd sortlater-app
-    ```
+Ouvrir `http://localhost:5173` dans le navigateur.
 
-2.  **Installez les dépendances**
-
-    ```bash
-    npm install
-    ```
-
-3.  **Démarrez le serveur de développement**
-
-    ```bash
-    npm run dev
-    ```
-
-4.  **Ouvrez votre navigateur** et accédez à `http://localhost:5173`
-
-### Compiler pour la Production
+### Compiler pour la production
 
 ```bash
 npm run build
 ```
 
-Les fichiers compilés se trouveront dans le répertoire `dist`.
-
-## ⌨️ Raccourcis Clavier
-
-| Raccourci      | Action                          |
-| -------------- | ------------------------------- |
-| `Ctrl/Cmd + K` | Ajouter un nouveau lien         |
-| `Ctrl/Cmd + D` | Changer de thème                |
-| `Tab`          | Basculer entre Actifs/Archivés  |
-| `Ctrl/Cmd + F` | Focus sur la recherche          |
-| `Ctrl/Cmd + E` | Exporter les liens              |
-| `?`            | Afficher les raccourcis clavier |
-
-## 🛠️ Stack Technique
-
-- **Frontend :** React 18 avec TypeScript
-- **Style :** Tailwind CSS
-- **Outil de Build :** Vite
-- **Icônes :** Lucide React
-- **Stockage :** localStorage du navigateur
-
-## 📱 Utilisation
-
-### Ajouter des Liens
-
-1.  Collez n'importe quelle URL dans le formulaire "Ajouter un nouveau lien".
-2.  Ajoutez optionnellement un titre personnalisé, une catégorie et des tags.
-3.  Cliquez sur "Ajouter un lien" ou appuyez sur Entrée.
-
-### Lire les Liens
-
-- Cliquez sur "Lire" sur n'importe quel lien actif pour l'ouvrir et l'archiver automatiquement.
-- Ou cliquez sur le titre du lien pour l'ouvrir sans l'archiver.
-
-### Organisation
-
-- **Catégories :** Regroupez les liens connexes.
-- **Tags :** Ajoutez plusieurs tags pour une organisation flexible.
-- **Recherche :** Trouvez des liens par titre, URL ou tags.
-- **Filtres :** Filtrez par catégorie ou par tags.
-
-### Gestion des Données
-
-- **Exporter :** Téléchargez tous vos liens dans un fichier JSON.
-- **Importer :** Uploadez un fichier JSON pour restaurer ou fusionner des liens.
-- **Archiver :** Gardez votre liste de lecture propre en archivant les éléments lus.
-
-## 🎨 Personnalisation
-
-L'application prend en charge les thèmes clair et sombre avec de superbes dégradés et des transitions fluides. La préférence de thème est automatiquement sauvegardée et restaurée.
-
-## 📄 Format des Données
-
-Les liens sont stockés dans ce format :
-
-```json
-{
-  "id": 1640995200000,
-  "url": "https://example.com",
-  "title": "Titre de l'Exemple",
-  "archived": false,
-  "createdAt": "2023-12-31T12:00:00.000Z",
-  "category": "Technologie",
-  "tags": ["react", "javascript"]
-}
-```
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues \! N'hésitez pas à soumettre une Pull Request.
-
-1.  Forkez le projet
-2.  Créez votre branche de fonctionnalité (`git checkout -b feature/AmazingFeature`)
-3.  Commitez vos changements (`git commit -m 'Add some AmazingFeature'`)
-4.  Pushez vers la branche (`git push origin feature/AmazingFeature`)
-5.  Ouvrez une Pull Request
-
-## 📝 Licence
-
-Ce projet est open source et disponible sous la [Licence MIT](https://www.google.com/search?q=LICENSE).
-
-## 🙏 Remerciements
-
-- Icônes par [Lucide](https://www.google.com/search?q=https.lucide.dev/)
-- Images de [Pexels](https://pexels.com/)
-- Construit avec [Vite](https://vitejs.dev/) et [React](https://reactjs.org/)
+Les fichiers compilés se trouvent dans le dossier `dist/`.
 
 ---
 
-**Fait avec ❤️ pour de meilleures habitudes de lecture**
+## Stack technique
+
+- React 18 + TypeScript
+- Vite
+- CSS custom (variables, pas de framework)
+- Stockage : `localStorage` (pas de backend, pas de compte)
+
+---
+
+## Feuille de route
+
+Les prochaines étapes dans l'ordre logique :
+
+**Étape 2 — PWA + partage mobile**
+Transformer l'app en Progressive Web App pour l'installer sur iOS/Android. Elle apparaîtra dans la feuille de partage native : voir un lien sur Safari ou Chrome mobile → partager → il arrive dans SortLater.
+
+**Étape 3 — Backend + hébergement**
+Mettre en place un petit serveur (Flask + SQLite, déjà en place dans le repo) hébergé sur un VPS. Nécessaire pour avoir une URL publique et faire fonctionner la synchronisation.
+
+**Étape 4 — Synchronisation**
+Une fois le backend hébergé, la liste est identique sur tous les appareils. Un lien ajouté depuis le téléphone apparaît sur l'ordinateur, et vice versa.
+
+**Étape 1 — Extension navigateur**
+Un bouton dans Chrome/Firefox pour ajouter la page courante à la liste en un clic. L'extension envoie le lien au backend — nécessite donc l'étape 3 au préalable. Règle également la récupération automatique du titre de la page.
+
+---
+
+## Licence
+
+MIT

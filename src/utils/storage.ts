@@ -1,81 +1,54 @@
-import { Link, AppSettings } from '../types/link';
+import { Link, HistoryLink, AppSettings } from '../types/link';
 
-const STORAGE_KEY = 'sortlater-links';
+const LINKS_KEY = 'sortlater-links';
+const HISTORY_KEY = 'sortlater-history';
 const SETTINGS_KEY = 'sortlater-settings';
+const HISTORY_TTL_MS = 24 * 60 * 60 * 1000;
 
 export const loadLinks = (): Link[] => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(LINKS_KEY);
     return stored ? JSON.parse(stored) : [];
-  } catch (error) {
-    console.error('Error loading links from localStorage:', error);
+  } catch {
     return [];
   }
 };
 
 export const saveLinks = (links: Link[]): void => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
-  } catch (error) {
-    console.error('Error saving links to localStorage:', error);
+    localStorage.setItem(LINKS_KEY, JSON.stringify(links));
+  } catch {}
+};
+
+export const loadHistory = (): HistoryLink[] => {
+  try {
+    const stored = localStorage.getItem(HISTORY_KEY);
+    if (!stored) return [];
+    const all: HistoryLink[] = JSON.parse(stored);
+    const cutoff = Date.now() - HISTORY_TTL_MS;
+    return all.filter(l => new Date(l.readAt).getTime() > cutoff);
+  } catch {
+    return [];
   }
+};
+
+export const saveHistory = (history: HistoryLink[]): void => {
+  try {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch {}
 };
 
 export const loadSettings = (): AppSettings => {
   try {
     const stored = localStorage.getItem(SETTINGS_KEY);
-    return stored ? JSON.parse(stored) : { theme: 'dark', defaultCategory: 'General' };
-  } catch (error) {
-    console.error('Error loading settings from localStorage:', error);
-    return { theme: 'dark', defaultCategory: 'General' };
+    return stored ? JSON.parse(stored) : { limit: 20, theme: 'light' };
+  } catch {
+    return { limit: 20, theme: 'light' };
   }
 };
 
 export const saveSettings = (settings: AppSettings): void => {
   try {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-  } catch (error) {
-    console.error('Error saving settings to localStorage:', error);
-  }
-};
-
-export const createLink = (url: string, title: string, category?: string, tags: string[] = []): Link => {
-  return {
-    id: Date.now(),
-    url,
-    title: title || extractTitleFromUrl(url),
-    archived: false,
-    createdAt: new Date().toISOString(),
-    tags,
-    category: category || 'General',
-  };
-};
-
-export const exportLinks = (links: Link[]): string => {
-  return JSON.stringify(links, null, 2);
-};
-
-export const importLinks = (jsonData: string): Link[] => {
-  try {
-    const parsed = JSON.parse(jsonData);
-    if (Array.isArray(parsed)) {
-      return parsed.map(link => ({
-        ...link,
-        tags: link.tags || [],
-        category: link.category || 'General',
-      }));
-    }
-    throw new Error('Invalid format');
-  } catch (error) {
-    throw new Error('Invalid JSON format');
-  }
-};
-
-const extractTitleFromUrl = (url: string): string => {
-  try {
-    const urlObj = new URL(url);
-    return urlObj.hostname.replace('www.', '');
-  } catch {
-    return url;
-  }
+  } catch {}
 };

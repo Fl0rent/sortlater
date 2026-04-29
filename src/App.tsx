@@ -1,162 +1,235 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link, AppSettings } from './types/link';
-import { loadLinks, saveLinks, loadSettings, saveSettings } from './utils/storage';
-import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
-import { Header } from './components/Header';
-import { HomePage } from './pages/HomePage';
-import { SearchPage } from './pages/SearchPage';
-import { AddLinkPage } from './pages/AddLinkPage';
-import { KeyboardShortcuts } from './components/KeyboardShortcuts';
+import { Link, HistoryLink } from './types/link';
+import {
+  loadLinks, saveLinks,
+  loadHistory, saveHistory,
+  loadSettings, saveSettings,
+} from './utils/storage';
+import { AddLinkForm } from './components/AddLinkForm';
+import { SearchBar } from './components/SearchBar';
+import { LinkList } from './components/LinkList';
+import { LimitSetting } from './components/LimitSetting';
+import { History } from './components/History';
+import { ImportPanel } from './components/ImportPanel';
+
+function extractTitle(url: string): string {
+  try {
+    return new URL(url).hostname.replace('www.', '');
+  } catch {
+    return url;
+  }
+}
+
+type Mode = 'normal' | 'add' | 'export' | 'import';
 
 function App() {
   const [links, setLinks] = useState<Link[]>([]);
-  const [settings, setSettings] = useState<AppSettings>({ theme: 'dark', defaultCategory: 'General' });
+  const [history, setHistory] = useState<HistoryLink[]>([]);
+  const [search, setSearch] = useState('');
+  const [limit, setLimit] = useState(20);
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [mode, setMode] = useState<Mode>('normal');
+  const [undoItem, setUndoItem] = useState<{ link: Link; index: number } | null>(null);
+  const undoTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const savedLinks = loadLinks();
-    const savedSettings = loadSettings();
-    setLinks(savedLinks);
-    setSettings(savedSettings);
+    setLinks(loadLinks());
+    setHistory(loadHistory());
+    const settings = loadSettings();
+    setLimit(settings.limit);
+    setTheme(settings.theme ?? 'dark');
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', settings.theme === 'dark');
-  }, [settings.theme]);
+    document.body.dataset.theme = theme;
+  }, [theme]);
 
-  const handleAddLink = (url: string, title: string, category?: string, tags: string[] = []) => {
-    const newLink = {
+  const handleAdd = (url: string, title: string) => {
+    if (links.length >= limit) return;
+    const newLink: Link = {
       id: Date.now(),
-      url: url.trim(),
-      title: title.trim() || extractTitleFromUrl(url),
-      archived: false,
-      createdAt: new Date().toISOString(),
-      tags,
-      category: category || 'General',
+      url,
+      title: title || extractTitle(url),
+      addedAt: new Date().toISOString(),
     };
-    const updatedLinks = [newLink, ...links];
-    setLinks(updatedLinks);
-    saveLinks(updatedLinks);
+    const updated = [newLink, ...links];
+    setLinks(updated);
+    saveLinks(updated);
+    setMode('normal');
   };
 
-  const handleReadLink = (id: number) => {
-    const updatedLinks = links.map(link =>
-      link.id === id ? { ...link, archived: true } : link
-    );
-    setLinks(updatedLinks);
-    saveLinks(updatedLinks);
+  // clic sur le titre : retire la liste + ajoute à l'historique
+  const handleOpen = (link: Link) => {
+    const updated = links.filter(l => l.id !== link.id);
+    setLinks(updated);
+    saveLinks(updated);
+    const historyLink: HistoryLink = { ...link, readAt: new Date().toISOString() };
+    const updatedHistory = [historyLink, ...history];
+    setHistory(updatedHistory);
+    saveHistory(updatedHistory);
   };
 
-  const handleRestoreLink = (id: number) => {
-    const updatedLinks = links.map(link =>
-      link.id === id ? { ...link, archived: false } : link
-    );
-    setLinks(updatedLinks);
-    saveLinks(updatedLinks);
+  // ✕ : retire avec possibilité d'annuler pendant 4s
+  const handleDelete = (id: number) => {
+    const index = links.findIndex(l => l.id === id);
+    const link = links[index];
+    const updated = links.filter(l => l.id !== id);
+    setLinks(updated);
+    saveLinks(updated);
+    const historyLink: HistoryLink = { ...link, readAt: new Date().toISOString() };
+    const updatedHistory = [historyLink, ...history];
+    setHistory(updatedHistory);
+    saveHistory(updatedHistory);
+
+    if (undoTimer.current) clearTimeout(undoTimer.current);
+    setUndoItem({ link, index });
+    undoTimer.current = setTimeout(() => setUndoItem(null), 4000);
   };
 
-  const handleDeleteLink = (id: number) => {
-    const updatedLinks = links.filter(link => link.id !== id);
-    setLinks(updatedLinks);
-    saveLinks(updatedLinks);
+  const handleUndo = () => {
+    if (!undoItem) return;
+    if (undoTimer.current) clearTimeout(undoTimer.current);
+    const restored = [...links];
+    restored.splice(undoItem.index, 0, undoItem.link);
+    setLinks(restored);
+    saveLinks(restored);
+    setUndoItem(null);
   };
 
-  const handleImportLinks = (importedLinks: Link[]) => {
-    const mergedLinks = [...importedLinks, ...links];
-    setLinks(mergedLinks);
-    saveLinks(mergedLinks);
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    saveSettings({ limit: newLimit, theme });
   };
 
-  const toggleTheme = () => {
-    const newSettings = { ...settings, theme: settings.theme === 'dark' ? 'light' as const : 'dark' as const };
-    setSettings(newSettings);
-    saveSettings(newSettings);
+  const handleToggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    saveSettings({ limit, theme: next });
+  };
+
+  const handleToggleSelect = (id: number) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
   };
 
   const handleExport = () => {
-    const event = new CustomEvent('export-links');
-    document.dispatchEvent(event);
+    const toExport = links.filter(l => selected.has(l.id));
+    const text = toExport.map(l => `${l.title}\n${l.url}`).join('\n\n');
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sortlater.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    const updatedLinks = links.filter(l => !selected.has(l.id));
+    setLinks(updatedLinks);
+    saveLinks(updatedLinks);
+    setSelected(new Set());
+    setMode('normal');
   };
 
-  useKeyboardShortcuts({
-    onAddLink: () => window.location.href = '/add',
-    onToggleTheme: toggleTheme,
-    onToggleView: () => {},
-    onSearch: () => window.location.href = '/search',
-    onExport: handleExport,
-  });
-
-  const extractTitleFromUrl = (url: string): string => {
-    try {
-      const urlObj = new URL(url);
-      return urlObj.hostname.replace('www.', '');
-    } catch {
-      return url;
-    }
+  const handleImport = (items: Omit<Link, 'id' | 'addedAt'>[]) => {
+    const newLinks: Link[] = items.map((item, i) => ({
+      ...item,
+      id: Date.now() + i,
+      addedAt: new Date().toISOString(),
+    }));
+    const updated = [...newLinks, ...links].slice(0, limit);
+    setLinks(updated);
+    saveLinks(updated);
   };
 
-  const isDark = settings.theme === 'dark';
+  const filtered = search.trim()
+    ? links.filter(l => l.title.toLowerCase().includes(search.toLowerCase()))
+    : links;
+
+  const isFull = links.length >= limit;
 
   return (
-    <Router>
-      <div className={`min-h-screen transition-colors duration-300 ${
-        isDark 
-          ? 'bg-black' 
-          : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
-      }`}>
-        {isDark && (
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-900/20 via-black to-black opacity-50"></div>
-        )}
-        
-        <div className="relative z-10">
-          <Header 
-            theme={settings.theme} 
-            onToggleTheme={toggleTheme}
-            links={links}
-            onImport={handleImportLinks}
-          />
-          
-          <Routes>
-            <Route 
-              path="/" 
-              element={
-                <HomePage 
-                  links={links}
-                  onRead={handleReadLink}
-                  onRestore={handleRestoreLink}
-                  onDelete={handleDeleteLink}
-                  theme={settings.theme}
-                />
-              } 
-            />
-            <Route 
-              path="/search" 
-              element={
-                <SearchPage 
-                  links={links}
-                  onRead={handleReadLink}
-                  onRestore={handleRestoreLink}
-                  onDelete={handleDeleteLink}
-                  theme={settings.theme}
-                />
-              } 
-            />
-            <Route 
-              path="/add" 
-              element={
-                <AddLinkPage 
-                  onAddLink={handleAddLink}
-                  categories={['General', ...Array.from(new Set(links.map(link => link.category).filter(Boolean)))]}
-                  theme={settings.theme}
-                />
-              } 
-            />
-          </Routes>
+    <div className="app">
+      <header className="app-header">
+        <h1>SortLater</h1>
+        <div className="header-right">
+          <LimitSetting limit={limit} total={links.length} onChange={handleLimitChange} />
+          <button className="theme-toggle" onClick={handleToggleTheme} title="Changer le thème">
+            {theme === 'dark' ? '☀' : '☾'}
+          </button>
         </div>
+      </header>
 
-        <KeyboardShortcuts theme={settings.theme} />
-      </div>
-    </Router>
+      <SearchBar value={search} onChange={setSearch} />
+
+      {mode === 'add' && (
+        <AddLinkForm onAdd={handleAdd} isFull={isFull} onCancel={() => setMode('normal')} />
+      )}
+
+      {mode === 'export' && selected.size > 0 && (
+        <div className="export-bar">
+          <span>{selected.size} lien{selected.size > 1 ? 's' : ''} sélectionné{selected.size > 1 ? 's' : ''}</span>
+          <div className="export-actions">
+            <button className="btn-secondary" onClick={() => { setMode('normal'); setSelected(new Set()); }}>Annuler</button>
+            <button className="btn-export" onClick={handleExport}>Exporter .txt</button>
+          </div>
+        </div>
+      )}
+
+      <LinkList
+        links={filtered}
+        onOpen={handleOpen}
+        onDelete={handleDelete}
+        exportMode={mode === 'export'}
+        selected={selected}
+        onToggleSelect={handleToggleSelect}
+      />
+
+      {mode === 'import' && (
+        <ImportPanel onImport={handleImport} onClose={() => setMode('normal')} />
+      )}
+
+      {mode === 'normal' && (
+        <div className="bottom-actions">
+          <button className="action-link" onClick={() => setMode('add')}>ajouter</button>
+          <span className="action-sep">|</span>
+          <button className="action-link" onClick={() => setMode('import')}>importer</button>
+          <span className="action-sep">|</span>
+          <button className="action-link" onClick={() => setMode('export')}>exporter</button>
+        </div>
+      )}
+
+      {mode === 'export' && selected.size === 0 && (
+        <div className="bottom-actions">
+          <span className="action-hint">Sélectionne des liens à exporter</span>
+          <span className="action-sep">|</span>
+          <button className="action-link" onClick={() => setMode('normal')}>annuler</button>
+        </div>
+      )}
+
+      <History history={history} />
+
+      <footer className="app-footer">
+        <a
+          href="https://github.com/Fl0rent/sortlater"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="action-link"
+        >
+          à propos
+        </a>
+      </footer>
+
+      {undoItem && (
+        <div className="undo-toast">
+          <span>Lien supprimé</span>
+          <button className="undo-btn" onClick={handleUndo}>Annuler</button>
+        </div>
+      )}
+    </div>
   );
 }
 
